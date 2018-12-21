@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.5.2;
 
 /*
 LittleBook
@@ -58,14 +58,15 @@ contract LittleBook
 	{
 		uint    UnitNum;
 		string	UnitName;
-		uint	UnitExpense;
+		bytes32	UnitExpense;
 	}
 
-	uint public TotalExpense;
+	bytes32 public TotalExpense;
 
 	function StartApp()
 	{
-		owner = msg.sender;
+		Ownable();
+		//owner = msg.sender;
 		//AppEnd = 0;
 	}
 
@@ -78,7 +79,7 @@ contract LittleBook
 	function CreateLittleBook()
 	{
 		require(AppEnd != true);
-		require(msg.sender == User)
+		require(msg.sender == User);
 
 		BookName = msg.sender;
 		Expense[] public BookName;
