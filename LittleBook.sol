@@ -4,103 +4,46 @@ pragma solidity ^0.5.2;
 LittleBook
  -- Expenses Keeper
 ----------
-5 Aug 2018
+2 May 2019
 iDler
 */
 
-contract Ownable
-{
-	address public owner;
+import {Ownable} from "./Ownable.sol";
 
-	function Ownable()
-	{
-		owner = msg.sender;
-	}
-
-	modifier onlyOwner()
-	{
-		require(msg.sender == owner);
-		_;
-	}
-
-	function transferOwnership(address newOwner) onlyOwner
-	{
-		if(newOwner != address(0))
-		{
-			owner = newOwner;
-		}
-	}
-}
-
-contract AccessControl
-{
-	event ContractUpgrade(address newContract);
-
-	address public ceoAddress;
-	address public cfoAddress;
-	address public cooAddress;
-
-	bool public paused = false;
-	bool public AppEnd = false;
-
-
-}
-
-contract LittleBook
+contract LittleBook is Ownable
 {
 	address public Owner;
-	mapping(address => User) public Users;
+    mapping(address => Expense) public MyExpense;
 
 	uint public Version;
-	
 
 	struct Expense
 	{
 		uint    UnitNum;
 		string	UnitName;
-		bytes32	UnitExpense;
+		uint	UnitExpense;
 	}
 
-	bytes32 public TotalExpense;
-
-	function StartApp()
+    uint _Num;
+	uint public TotalExpense;
+	
+	function InitBook() public onlyOwner
 	{
-		Ownable();
-		//owner = msg.sender;
-		//AppEnd = 0;
+	    _Num = 0;
+	    TotalExpense = 0;
 	}
-
-	function Authorize(address User)
+	
+	function AddExpense(string memory _Name, uint _Expense) public onlyOwner
 	{
-		require(msg.sender == Owner);
-		//require(Players[Player] == null);
+	    MyExpense[msg.sender].UnitNum       =   _Num;
+	    MyExpense[msg.sender].UnitName      =   _Name;
+	    MyExpense[msg.sender].UnitExpense   =   _Expense;
+	    _Num++;
+	    TotalExpense = TotalExpense + _Expense;
 	}
-
-	function CreateLittleBook()
+	
+	function CheckExpense(uint Num) public onlyOwner
 	{
-		require(AppEnd != true);
-		require(msg.sender == User);
-
-		BookName = msg.sender;
-		Expense[] public BookName;
-	}
-
-	function AddExpense()
-	{
-		require(AppEnd != true);
-		push
-	}
-
-	function DelExpense()
-	{
-		require(AppEnd != true);
-		if(isEmpty(Expense) == 0)pull
-	}
-
-	function EndApp()
-	{
-		require(msg.sender == Owner);
-		AppEnd = true;
-
+	    
 	}
 }
