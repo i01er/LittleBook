@@ -12,25 +12,21 @@ import {Ownable} from "./Ownable.sol";
 
 contract LittleBook is Ownable
 {
-	address public Owner;
     mapping(address => Expense) public MyExpense;
-
-	uint public Version;
 
 	struct Expense
 	{
 		uint    UnitNum;
 		string	UnitName;
 		uint	UnitExpense;
+		uint    TotalExpense;
 	}
 
     uint _Num;
-	uint public TotalExpense;
 	
 	function InitBook() public onlyOwner
 	{
 	    _Num = 0;
-	    TotalExpense = 0;
 	}
 	
 	function AddExpense(string memory _Name, uint _Expense) public onlyOwner
@@ -38,12 +34,12 @@ contract LittleBook is Ownable
 	    MyExpense[msg.sender].UnitNum       =   _Num;
 	    MyExpense[msg.sender].UnitName      =   _Name;
 	    MyExpense[msg.sender].UnitExpense   =   _Expense;
+	    MyExpense[msg.sender].TotalExpense  =   MyExpense[msg.sender].TotalExpense + _Expense;
 	    _Num++;
-	    TotalExpense = TotalExpense + _Expense;
 	}
 	
-	function CheckExpense(uint Num) public onlyOwner
+	function CheckTotal() view public returns(uint)
 	{
-	    
+	    return MyExpense[msg.sender].TotalExpense;   
 	}
 }
